@@ -1,9 +1,22 @@
+#include <SharpIR.h>
+
+
+#define IR A0
+#define model 1080
+SharpIR SharpIR(IR, model);
+int distance;
 void setup() {
-  // put your setup code here, to run once:
+  pinMode(IR, INPUT);
+
+  Serial.begin(9600);
 
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
+  delay(2000);
 
+
+  distance = SharpIR.distance();
+  Serial.print("Distance: ");
+  Serial.println(distance);
 }
