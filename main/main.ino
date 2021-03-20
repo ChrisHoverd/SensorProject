@@ -21,24 +21,37 @@ void setup() {
 }
 
 void loop() {
-  delay(2000);
-  // For a set of NeoPixels the first NeoPixel is 0, second is 1, all the way up to the count of pixels minus one.
-
-  // pixels.Color takes RGB values, from 0,0,0 up to 255,255,255
-  pixels.setPixelColor(0, pixels.Color(150,0,0)); // red at about 60% of full brightness
-  pixels.setPixelColor(1, pixels.Color(0,150,0)); // green at about 60% of full brightness
-  pixels.setPixelColor(2, pixels.Color(0,0,150)); // blue at about 60% of full brightness
-  pixels.setPixelColor(3, pixels.Color(50,50,50)); // white at about 20% of full brightness
-  pixels.setPixelColor(4, pixels.Color(0,0,0)); // off
-  pixels.setPixelColor(5, pixels.Color(25,25,25)); // magenta
-  pixels.setPixelColor(6, pixels.Color(90,50,170)); // 
-  pixels.setPixelColor(7, pixels.Color(150,50,0)); // orange
-
-  pixels.show(); // This sends the updated pixel color to the hardware.
+  delay(500);
 
   distance = SharpIR.distance();
   Serial.print("Distance: ");
   Serial.println(distance);
+
+  if(distance>15)
+
+    {
+      pixels.setPixelColor(0, pixels.Color(0,255,0));
+      pixels.setPixelColor(1, pixels.Color(0,255,0)); 
+      pixels.setPixelColor(2, pixels.Color(0,255,0)); 
+      pixels.setPixelColor(3, pixels.Color(0,255,0)); 
+      pixels.setPixelColor(4, pixels.Color(0,255,0)); 
+      pixels.setPixelColor(5, pixels.Color(0,255,0)); 
+      pixels.setPixelColor(6, pixels.Color(0,255,0)); 
+      pixels.setPixelColor(7, pixels.Color(0,255,0)); 
+   }
+  else
+   {
+      pixels.setPixelColor(0, pixels.Color(255,0,0));
+      pixels.setPixelColor(1, pixels.Color(255,0,0)); 
+      pixels.setPixelColor(2, pixels.Color(255,0,0)); 
+      pixels.setPixelColor(3, pixels.Color(255,0,0)); 
+      pixels.setPixelColor(4, pixels.Color(255,0,0)); 
+      pixels.setPixelColor(5, pixels.Color(255,0,0)); 
+      pixels.setPixelColor(6, pixels.Color(255,0,0)); 
+      pixels.setPixelColor(7, pixels.Color(255,0,0));
+  }
+
+  pixels.show(); // This sends the updated pixel color to the hardware.
 
   delay(delayval); // Delay for a period of time (in milliseconds).
 }
