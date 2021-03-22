@@ -1,6 +1,8 @@
 //Reference for photocell(csd sensor) - https://learn.adafruit.com/photocells/arduino-code
 //Reference for neopixel stick - https://learn.adafruit.com/adafruit-neopixel-uberguide/arduino-library-use
 //Reference for sharp ir sensor - https://github.com/guillaume-rico/SharpIR
+//reference for coloured keyboard: https://wiki.dfrobot.com/ADKeyboard_Module__SKU__DFR0075_#target_1
+//                                 https://www.youtube.com/watch?v=HX2zDXK6E0Y
 
 //import necessary libraries
 #include <SharpIR.h>
@@ -15,7 +17,7 @@ int photocell_reading;
 #define model 1080
 int LED_PIN = 6;
 int NUM_PIXELS = 8;
-int LED_BRIGHTNESS;
+int red = 255;;
 
 
 //intialize variables required for adc keyboard
