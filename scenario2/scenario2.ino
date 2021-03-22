@@ -1,12 +1,3 @@
-//cite for photocell(csd sensor) - https://learn.adafruit.com/photocells/arduino-code
-//cite for neopixel stick - https://learn.adafruit.com/adafruit-neopixel-uberguide/arduino-library-use
-//cite for sharp ir sensor - https://github.com/guillaume-rico/SharpIR
-//reference for coloured keyboard: https://wiki.dfrobot.com/ADKeyboard_Module__SKU__DFR0075_#target_1
-//                                 https://www.youtube.com/watch?v=HX2zDXK6E0Y
-
-
-// **** Author: Christopher Hoverd
-
 
 //include necessary libraries
 #include <SharpIR.h> 
@@ -19,9 +10,10 @@
 #define model 1080
 int distance;
 int photocell_reading;
-
-
 int mapped_photocell_reading;
+
+
+//declare variables needed for neopixel and speaker
 int LED_PIN = 6;
 int NUM_PIXELS = 8;
 int SPEAKER_PIN = 3;
@@ -38,10 +30,14 @@ unsigned long flashingRedTimer = 500;
 int delayval = 100; 
 
 void setup() {
+
+  //declare pin modes
   pinMode(IR, INPUT);
   pinMode(SPEAKER_PIN, INPUT);
   pinMode(PHOTOCELL, INPUT);
   pixels.begin(); // This initializes the NeoPixel library.
+
+  //set neopixel to off
   pixels.setPixelColor(0, pixels.Color(0,0,0)); //0,0,0 is the RGB values. thus 0,0,0 is off. 255, 0, 0 would be red
   pixels.setPixelColor(1, pixels.Color(0,0,0)); 
   pixels.setPixelColor(2, pixels.Color(0,0,0)); 
@@ -78,7 +74,7 @@ void loop() {
       tone(SPEAKER_PIN, 200, 2000); //turn on an alarm at 200 Hz for 2000 ms
 
 
-      //the following lines in this 
+      //the following code in this if statement is used to flash the neopixel in red
       pixels.setPixelColor(0, pixels.Color(RED_NEOPIXEL,0,0));
       pixels.setPixelColor(1, pixels.Color(RED_NEOPIXEL,0,0)); 
       pixels.setPixelColor(2, pixels.Color(RED_NEOPIXEL,0,0)); 
@@ -128,7 +124,8 @@ void loop() {
       {
         tone(SPEAKER_PIN, 600, 2000); //turn on an alarm at 600 Hz for 2000 ms
 
-        pixels.setPixelColor(0, pixels.Color(RED_NEOPIXEL,0,0));
+      //the following code in this if statement is used to flash the neopixel in red
+      pixels.setPixelColor(0, pixels.Color(RED_NEOPIXEL,0,0));
       pixels.setPixelColor(1, pixels.Color(RED_NEOPIXEL,0,0)); 
       pixels.setPixelColor(2, pixels.Color(RED_NEOPIXEL,0,0)); 
       pixels.setPixelColor(3, pixels.Color(RED_NEOPIXEL,0,0)); 
@@ -176,8 +173,9 @@ void loop() {
       if (distance >34 && distance <45) //if distance is greater than 34 cm and less than 45 cm, do this
       {
         tone(SPEAKER_PIN, 1000, 2000); //turn on an alarm at 1000 Hz for 2000 ms
-
-        pixels.setPixelColor(0, pixels.Color(RED_NEOPIXEL,0,0));
+      
+      //the following code in this if statement is used to flash the neopixel in red
+      pixels.setPixelColor(0, pixels.Color(RED_NEOPIXEL,0,0));
       pixels.setPixelColor(1, pixels.Color(RED_NEOPIXEL,0,0)); 
       pixels.setPixelColor(2, pixels.Color(RED_NEOPIXEL,0,0)); 
       pixels.setPixelColor(3, pixels.Color(RED_NEOPIXEL,0,0)); 

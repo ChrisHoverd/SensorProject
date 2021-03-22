@@ -1,7 +1,0 @@
-**Scenario 1**
-
-- Keyboard push buttons to control green and yellow lights in house
-- driveway neopixel stick that gets triggered from motion (3 possible settings for amount of light)
-         -light turns on when it detects motion
-	 -light brightness will depend on how bright it is outside
-
