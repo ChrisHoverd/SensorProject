@@ -5,6 +5,10 @@
 //                                 https://www.youtube.com/watch?v=HX2zDXK6E0Y
 
 
+// **** Author: Christopher Hoverd
+
+
+//include necessary libraries
 #include <SharpIR.h> 
 #include <Adafruit_NeoPixel.h>
 
@@ -12,15 +16,14 @@
 //declare variables required for IR and photocell
 #define IR A0
 #define PHOTOCELL A1
+#define model 1080
 int distance;
 int photocell_reading;
+
+
 int mapped_photocell_reading;
-
-
-#define model 1080
 int LED_PIN = 6;
 int NUM_PIXELS = 8;
-int STROBE_BRIGHTNESS = 0;;
 int SPEAKER_PIN = 3;
 int RED_NEOPIXEL = 255;
 
@@ -29,9 +32,9 @@ Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUM_PIXELS, LED_PIN, NEO_GRB + NEO_
 SharpIR SharpIR(IR, model); //create a SharpIR object
 
 //red LED strobe variables
-unsigned long previousMillis = 0;
 unsigned long flashingRedTimer = 500;
 
+//delay at end of main loop
 int delayval = 100; 
 
 void setup() {
@@ -55,23 +58,27 @@ void setup() {
 void loop() {
   delay(500);
   photocell_reading = analogRead(PHOTOCELL); //take a reading from the photocell
-  mapped_photocell_reading = map(photocell_reading, 0, 1023, 0, 255); //maps 0 - 1023 input from photocell to a 0-255 output to the LED
+  mapped_photocell_reading = map(photocell_reading, 0, 1023, 0, 255); //maps 0 - 1023 input from photocell to 0 - 255
+  distance = SharpIR.distance(); //finds distance of object from IR sensor
+
+// commented out processes for debugging
 //  Serial.print("LED Brightness = ");
 //  Serial.println(STROBE_BRIGHTNESS);
-  Serial.print("Mapped Photocell Reading = ");
-  Serial.println(mapped_photocell_reading);
-  distance = SharpIR.distance(); //finds distance of object from IR sensor
-  Serial.print("Distance: ");
-  Serial.println(distance);
+//  Serial.print("Mapped Photocell Reading = ");
+//  Serial.println(mapped_photocell_reading);
+//  Serial.print("Distance: ");
+//  Serial.println(distance);
 
-  if (mapped_photocell_reading < 200)
+  if (mapped_photocell_reading < 200) //only trigger alarm system if the mapped photocell value is less than 200
 
   {
 
-      if(distance < 15)
+      if(distance < 15) //if distance is less than 15 cm, do this
       {
-      tone(SPEAKER_PIN, 200, 2000);
-      
+      tone(SPEAKER_PIN, 200, 2000); //turn on an alarm at 200 Hz for 2000 ms
+
+
+      //the following lines in this 
       pixels.setPixelColor(0, pixels.Color(RED_NEOPIXEL,0,0));
       pixels.setPixelColor(1, pixels.Color(RED_NEOPIXEL,0,0)); 
       pixels.setPixelColor(2, pixels.Color(RED_NEOPIXEL,0,0)); 
@@ -117,9 +124,9 @@ void loop() {
       delay(500);
       }
 
-      if (distance >15 && distance < 34)
+      if (distance >15 && distance < 34) //if distance is greater than 15 cm and less than 34 cm, do this
       {
-        tone(SPEAKER_PIN, 600, 2000);
+        tone(SPEAKER_PIN, 600, 2000); //turn on an alarm at 600 Hz for 2000 ms
 
         pixels.setPixelColor(0, pixels.Color(RED_NEOPIXEL,0,0));
       pixels.setPixelColor(1, pixels.Color(RED_NEOPIXEL,0,0)); 
@@ -166,9 +173,9 @@ void loop() {
       delay(500);
       }
 
-      if (distance >34 && distance <45)
+      if (distance >34 && distance <45) //if distance is greater than 34 cm and less than 45 cm, do this
       {
-        tone(SPEAKER_PIN, 1000, 2000);
+        tone(SPEAKER_PIN, 1000, 2000); //turn on an alarm at 1000 Hz for 2000 ms
 
         pixels.setPixelColor(0, pixels.Color(RED_NEOPIXEL,0,0));
       pixels.setPixelColor(1, pixels.Color(RED_NEOPIXEL,0,0)); 

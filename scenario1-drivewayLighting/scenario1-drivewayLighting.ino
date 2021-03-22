@@ -17,8 +17,8 @@ int photocell_reading;
 #define model 1080
 int LED_PIN = 6;
 int NUM_PIXELS = 8;
-int red = 255;;
-
+int LED_BRIGHTNESS;
+int SPEAKER_PIN = 3;
 
 //intialize variables required for adc keyboard
 #define KEYBOARD A2
@@ -29,6 +29,9 @@ int GREEN_LED_PWM = 0;
 int GREEN_LED_PIN = 10;
 int YELLOW_LED_PIN = 9;
 int YELLOW_LED_PWM = 0;
+
+unsigned long currentMillis = 0;
+unsigned long previousMillis = 0;
 
 //white 170 - 1
 //blue 340 - 2
@@ -110,7 +113,8 @@ void loop() {
       pixels.setPixelColor(4, pixels.Color(0,0,0)); 
       pixels.setPixelColor(5, pixels.Color(0,0,0)); 
       pixels.setPixelColor(6, pixels.Color(0,0,0)); 
-      pixels.setPixelColor(7, pixels.Color(0,0,0)); 
+      pixels.setPixelColor(7, pixels.Color(0,0,0));
+      noTone(SPEAKER_PIN); 
    }
   else
    {
@@ -124,7 +128,14 @@ void loop() {
       pixels.setPixelColor(5, pixels.Color(LED_BRIGHTNESS,LED_BRIGHTNESS,LED_BRIGHTNESS)); 
       pixels.setPixelColor(6, pixels.Color(LED_BRIGHTNESS,LED_BRIGHTNESS,LED_BRIGHTNESS)); 
       pixels.setPixelColor(7, pixels.Color(LED_BRIGHTNESS,LED_BRIGHTNESS,LED_BRIGHTNESS));
-
+      
+      currentMillis = millis();
+      if(currentMillis - previousMillis > 10000)
+      {
+        previousMillis = currentMillis;
+        tone(SPEAKER_PIN, 500, 500);
+      }
+      
   }
   
   pixels.show(); // This sends the updated pixel color to the hardware.
