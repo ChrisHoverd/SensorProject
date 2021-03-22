@@ -43,6 +43,10 @@ int SPEAKER_PIN = 3;
 Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUM_PIXELS, LED_PIN, NEO_GRB + NEO_KHZ800); //create an adafruit neopixel object
 SharpIR SharpIR(IR, model); //create a SharpIR object
 
+//red LED strobe variables
+unsigned long previousMillis = 0;
+unsigned long flashingRedTimer = 500;
+
 int delayval = 100; 
 
 void setup() {
@@ -65,34 +69,7 @@ void loop() {
   analogWrite(YELLOW_LED_PIN, YELLOW_LED_PWM);
 
   
-    if (key!=old_key)
-  {
-      delay(50);
-      adc_value = analogRead(KEYBOARD);
-      key = (buttonFromAnalog(adc_value));
-      if (key!=old_key)
-      {
-            old_key = key;
-            if (key >=0)
-            {
-                switch(key)
-                {
-                   case 1:Serial.println("White");
-                          break;
-                   case 2:Serial.println("Blue");
-                          break;
-                   case 3:Serial.println("Red");
-                          break;
-                   case 4:Serial.println("Yellow");
-                          changeYellowLED();
-                          break;
-                   case 5:Serial.println("Green");
-                          changeGreenLED();
-                          break;
-                }
-            }
-      }
-  }
+
 
   photocell_reading = analogRead(PHOTOCELL); //take a reading from the photocell
   LED_BRIGHTNESS = map(1023 - photocell_reading, 0, 1023, 0, 255); //maps 0 - 1023 input from photocell to a 0-255 output to the LED
@@ -136,38 +113,6 @@ void loop() {
   delay(delayval); // Delay for a period of time (in milliseconds).
 }
 
-
-byte buttonFromAnalog(int analogInput)
-{
-    if(analogInput > 130 && analogInput <=250 )
-    {
-        return 1; //white
-    }
-
-    if(analogInput >= 250 && analogInput <430 )
-    {
-        return 2; //blue
-    }
-
-    if(analogInput >= 430 && analogInput <560 )
-    {
-        return 3; //red
-    }
-
-    if(analogInput >= 560 && analogInput <750 )
-    {
-        return 4; //yellow
-    }
-
-    if(analogInput >= 750 && analogInput <950 )
-    {
-        return 5; //green
-    }
-    if(analogInput >= 950 )
-    {
-        return 0; //no button press
-    }
-}
 
 void changeGreenLED(){
   if (GREEN_LED_PWM == 0)
