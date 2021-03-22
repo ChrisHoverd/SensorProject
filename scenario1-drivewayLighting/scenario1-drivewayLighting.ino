@@ -1,8 +1,3 @@
-//Reference for photocell(csd sensor) - https://learn.adafruit.com/photocells/arduino-code
-//Reference for neopixel stick - https://learn.adafruit.com/adafruit-neopixel-uberguide/arduino-library-use
-//Reference for sharp ir sensor - https://github.com/guillaume-rico/SharpIR
-//reference for coloured keyboard: https://wiki.dfrobot.com/ADKeyboard_Module__SKU__DFR0075_#target_1
-//                                 https://www.youtube.com/watch?v=HX2zDXK6E0Y
 
 //import necessary libraries
 #include <SharpIR.h>
@@ -13,8 +8,9 @@
 #define PHOTOCELL A1
 int distance;
 int photocell_reading;
-
 #define model 1080
+
+//declare neopiexel and speaker variables
 int LED_PIN = 6;
 int NUM_PIXELS = 8;
 int LED_BRIGHTNESS;
@@ -25,14 +21,18 @@ int SPEAKER_PIN = 3;
 int adc_value;
 int old_key = 6;
 int key;
+
+//declare variables required for green and yellow LEDs
 int GREEN_LED_PWM = 0;
 int GREEN_LED_PIN = 10;
 int YELLOW_LED_PIN = 9;
 int YELLOW_LED_PWM = 0;
 
+//intialize variables needed to time the alarm speaker
 unsigned long currentMillis = 0;
 unsigned long previousMillis = 0;
 
+//adc keyboard values and their assigned integer value for debugging and reference
 //white 170 - 1
 //blue 340 - 2
 //red 500 - 3
@@ -44,7 +44,7 @@ unsigned long previousMillis = 0;
 Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUM_PIXELS, LED_PIN, NEO_GRB + NEO_KHZ800); //create an adafruit neopixel object
 SharpIR SharpIR(IR, model); //create a SharpIR object
 
-int delayval = 100; // delay for half a second
+int delayval = 100; // delay for half a second at end of main loop
 
 void setup() {
   //declare pin modes
@@ -58,12 +58,15 @@ void setup() {
 
 void loop() {
   delay(500);
-  adc_value = analogRead(KEYBOARD);
-  key = (buttonFromAnalog(adc_value));
-  Serial.println(GREEN_LED_PWM);
-  analogWrite(GREEN_LED_PIN, GREEN_LED_PWM);
+  adc_value = analogRead(KEYBOARD); //read adc values from keyboard
+  key = (buttonFromAnalog(adc_value)); //assign a value to the adc conversion
+  analogWrite(GREEN_LED_PIN, GREEN_LED_PWM); //send analog signals to green and yellow pins
   analogWrite(YELLOW_LED_PIN, YELLOW_LED_PWM);
 
+    // these nested if statements are used to debounce the adc key signal 
+    //  then determine if a new key has been pressed
+    //      then from there, it determines which key was pressed and does something
+    //          depending on which key
     if (key!=old_key)
   {
       delay(50);
@@ -76,6 +79,8 @@ void loop() {
             {
                 switch(key)
                 {
+
+                  // if white button has been pushed, do this.. if blue button has been pushed...etc.
                    case 1:Serial.println("White");
                           break;
                    case 2:Serial.println("Blue");
@@ -83,10 +88,10 @@ void loop() {
                    case 3:Serial.println("Red");
                           break;
                    case 4:Serial.println("Yellow");
-                          changeYellowLED();
+                          changeYellowLED(); //calls function that changes yellow LED analog signal to 0 or 255
                           break;
                    case 5:Serial.println("Green");
-                          changeGreenLED();
+                          changeGreenLED(); //calls function that changes green LED analog signal to 0 or 255
                           break;
                 }
             }
@@ -95,7 +100,7 @@ void loop() {
   
   photocell_reading = analogRead(PHOTOCELL); //take a reading from the photocell
   LED_BRIGHTNESS = map(1023 - photocell_reading, 0, 1023, 0, 255); //maps 0 - 1023 input from photocell to a 0-255 output to the LED
-  Serial.print("LED Brightness = ");
+  Serial.print("LED Brightness = "); //print statements used for debugging
   Serial.println(LED_BRIGHTNESS);
   Serial.print("Analog reading = ");
   Serial.println(photocell_reading);
@@ -129,8 +134,8 @@ void loop() {
       pixels.setPixelColor(6, pixels.Color(LED_BRIGHTNESS,LED_BRIGHTNESS,LED_BRIGHTNESS)); 
       pixels.setPixelColor(7, pixels.Color(LED_BRIGHTNESS,LED_BRIGHTNESS,LED_BRIGHTNESS));
       
-      currentMillis = millis();
-      if(currentMillis - previousMillis > 10000)
+      currentMillis = millis(); 
+      if(currentMillis - previousMillis > 10000) //if statement used to only play the speaker every 10 seconds and only if an object is within the 15cm range
       {
         previousMillis = currentMillis;
         tone(SPEAKER_PIN, 500, 500);
@@ -143,7 +148,7 @@ void loop() {
   delay(delayval); // Delay for a period of time (in milliseconds).
 }
 
-byte buttonFromAnalog(int analogInput)
+byte buttonFromAnalog(int analogInput) // function used to determine which button was pushed on the adc keyboard
 {
     if(analogInput > 130 && analogInput <=250 )
     {
@@ -175,7 +180,7 @@ byte buttonFromAnalog(int analogInput)
     }
 }
 
-void changeGreenLED(){
+void changeGreenLED(){ //function that changes pwm of green LED pin to 0 or 255
   if (GREEN_LED_PWM == 0)
   {
      GREEN_LED_PWM = 255;
@@ -186,7 +191,7 @@ void changeGreenLED(){
   }
 }
 
-void changeYellowLED(){
+void changeYellowLED(){ //function that changes pwm of yellow LED pin to 0 or 255
   if (YELLOW_LED_PWM == 0)
   {
      YELLOW_LED_PWM = 255;
