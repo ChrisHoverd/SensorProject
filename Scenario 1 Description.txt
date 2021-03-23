@@ -1,5 +1,0 @@
-**Scenario 1**
-
-Smart Lights that get brighter depending on the light
-Turn on when they detect motion
-Press a button to turn them off

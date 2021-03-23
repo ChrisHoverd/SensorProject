@@ -1,0 +1,53 @@
+Scenario 1
+
+Components Used:
+Male to Male Wires
+Male to Female Wires 
+ADC 5 Button Keyboard
+8 Pixel Neopixel Stick
+Speaker
+Photocell Sensor
+Sharp IR Distance Sensor
+Green LED
+Yellow LED
+Arduino Uno
+Printer Cable
+Breadboard
+
+Scenario Description:
+
+This scenario is similar to a driveway light that turns on when it detects a car in the driveway. 
+When the distance sensor detects an object that is less than 15cm away from it, it turns on the driveway light (neopixel stick). 
+The brightness of the Neopixel stick depends on the amount of light seen by the photocell sensor. If there is little light seen (aka night time), 
+the neopixel stick will be at its brightest and vice versa for daytime. Also, when the distance sensor detects an object less than 15cm away, 
+it will also play a tone on the speaker thus alerting the homeowner that someone is on the property. There is also a yellow and green LED in 2 
+different rooms. A 5 button keyboard with 5 different colours is used. When the green button on the keyboard is pressed, the green LED will turn 
+on until the green button is pressed again. The same thing applies to the yellow button. 
+
+
+
+
+Scenario 2
+
+Components Used:
+
+Male to Male Wires
+Male to Female Wires 
+8 Pixel Neopixel Stick
+Speaker
+Photocell Sensor
+Sharp IR Distance Sensor
+Arduino Uno
+Printer Cable
+Breadboard
+
+Scenario Description:
+
+This scenario is more a traditional alarm system. A distance sensor is attached to the top of the house pointing downwards past the 
+3 levels of the house. The distance sensor is able to distinguish the distances between the 3 levels of the house. 
+So when an object/person is in the lowest room, the distance sensor will trigger a red flashing light (neopixel stick) and a buzzer with a specific tone. 
+When an object/person is in the other 2 levels, the red light will flash also however, the buzzer will play a different tone for each. 
+Thus the tone of the buzzer is dependent on how far away the object is from the distance sensor. Thus for each level of the house, 
+there is a different tone from the buzzer. The use of the photocell in this scenario is to determine if its night time or day time. 
+If it’s daytime, no buzzer or LEDs will flash when an object is detected in any of the levels of the house. 
+The buzzer and LEDs will only operate when the photocell determines its night time. 
